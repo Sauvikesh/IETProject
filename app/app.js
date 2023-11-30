@@ -4,6 +4,18 @@ const axios = require('axios');
 const port = 8080;
 const app = express();
 
+
+/*
+    required data for RSS:
+
+    Title -> title
+    Link -> object.ucdEdusModel.url
+    Description -> object.content ??
+    Pubish Data -> published
+    Author -> actor.author.displayName
+    PermaLInk -> ???
+*/
+
 // define url and response to /posts
 app.get("/posts", (req, res) => {
     axios.get("https://aggiefeed.ucdavis.edu/api/v1/activity/public?s=0&l=10")
@@ -16,7 +28,9 @@ app.get("/posts", (req, res) => {
             id: activity.id,
             published: activity.published,
             title: activity.title,
-            actorDisplayName: activity.actor.displayName,
+            author: activity.actor.displayName,
+            description: activity.object.content,
+            link: activity.object.ucdEdusModel.url
           }));
       
           // sends the requested number of activities in an array
