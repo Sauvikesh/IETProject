@@ -1,7 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 
-const port = 8080;
+const port = 3000;
 const app = express();
 
 
@@ -15,6 +15,11 @@ const app = express();
     Author -> actor.author.displayName
     PermaLInk -> ???
 */
+
+// Home page route
+app.get('/', async (req, res) => {
+    res.send("this is the home page");
+});
 
 // define url and response to /posts
 app.get("/posts", (req, res) => {
