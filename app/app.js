@@ -1,6 +1,6 @@
 const express = require('express');
 const axios = require('axios');
-
+const mongoose = require('mongoose');
 const port = 3000;
 const app = express();
 
@@ -15,6 +15,14 @@ const app = express();
     Author -> actor.author.displayName
     PermaLInk -> ???
 */
+
+// Database connection
+const db = require('./config/keys').mongoProdURI;
+mongoose
+    .connect(db)
+    .then(() => console.log(`Mongodb Connected`))
+    .catch(error => console.log(error));
+
 
 // Home page route
 app.get('/', async (req, res) => {
