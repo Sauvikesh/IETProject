@@ -6,16 +6,8 @@ const app = express();
 // Frontend route
 const FrontRouter = require('./routes/front');
 
-/*
-    required data for RSS:
-
-    Title -> title
-    Link -> object.ucdEdusModel.url
-    Description -> object.content ??
-    Pubish Data -> published
-    Author -> actor.author.displayName
-    PermaLInk -> ???
-*/
+// API routes
+const APIRoutes = require('./routes/api');
 
 // Database connection
 const db = require('./config/keys').mongoProdURI;
@@ -26,6 +18,7 @@ mongoose
 
 
 app.use(FrontRouter);
+app.use(APIRoutes);
 
 
 app.listen(port, () => {
