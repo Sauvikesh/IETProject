@@ -41,4 +41,4 @@ USER node
 EXPOSE 3000
 
 # Run the application
-CMD npm run start
+CMD ["nodemon", "-w", "/usr/src/app", "-e", "js,json", "/usr/src/app/server.js"]
