@@ -28,6 +28,7 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 # install nodemon for hot-reloading
 RUN npm install -g nodemon
 
+
 # Copy the rest of the source files into the image.
 COPY . .
 
@@ -39,5 +40,5 @@ USER node
 # Expose the port that the application listens on.
 EXPOSE 3000
 
-# Run the application in dev mode to use with Compose watch feature
+# Run the application
 CMD npm run start
