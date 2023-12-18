@@ -16,10 +16,8 @@ mongoose
     .then(() => console.log(`Mongodb Connected`))
     .catch(error => console.log(error));
 
-
 app.use(FrontRouter);
 app.use(APIRoutes);
-
 
 app.listen(port, () => {
     console.log("Server listening on:", port);

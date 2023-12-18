@@ -2,14 +2,12 @@ const axios = require('axios');
 const express = require('express');
 const router = express.Router();
 
-
 router.get('/getRSS', async (req, res) => {
     axios.get("https://www.ucdavis.edu/news/latest/rss")
     .then((response) => {
         res.send(response.data);
     })
 });
-
 
 // define url and response to /posts
 router.get("/posts", async (req, res) => {
@@ -28,11 +26,10 @@ router.get("/posts", async (req, res) => {
             link: activity.object.ucdEdusModel.url
           }));
       
-          // sends the requested number of activities in an array
+          // sends the activities in an array
           res.send(activities);
       })
       .catch((error) => {
-        // sends an error if there was an error
         console.error(error);
       });
 });
