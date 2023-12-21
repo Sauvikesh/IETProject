@@ -1,11 +1,24 @@
 const axios = require('axios');
 const express = require('express');
 const router = express.Router();
+const xml2js = require('xml2js');
+
+// non-library imports
+const processRSSData = require('../processors/RSSProcessor');
 
 router.get('/getRSS', async (req, res) => {
     axios.get("https://www.ucdavis.edu/news/latest/rss")
     .then((response) => {
-        res.send(response.data);
+
+        // parses xml response and turns it into json
+        xml2js.parseString(response.data, (err, result) => {
+            if (err) {
+                console.error(err);
+            } else {
+                let arrayOfItems = processRSSData(result.rss.channel[0].item);
+                res.send(arrayOfItems);
+            }
+          });
     })
 });
 
