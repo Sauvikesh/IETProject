@@ -5,18 +5,25 @@ const xml2js = require('xml2js');
 
 // non-library imports
 const processRSSData = require('../processors/RSSProcessor');
+const insertActivities = require('../database/insertActivity');
+const clearData = require('../database/deleteAllData');
+
+// route that deletes data to be used for testing
+router.get('/clearData', async (req, res) => {
+    res.send(await clearData());
+});
 
 router.get('/getRSS', async (req, res) => {
     axios.get("https://www.ucdavis.edu/news/latest/rss")
     .then((response) => {
-
         // parses xml response and turns it into json
-        xml2js.parseString(response.data, (err, result) => {
+        xml2js.parseString(response.data, async (err, result) => {
             if (err) {
                 console.error(err);
             } else {
-                let arrayOfItems = processRSSData(result.rss.channel[0].item);
-                res.send(arrayOfItems);
+                const arrayOfActivities = processRSSData(result.rss.channel[0].item);
+                const response = await insertActivities(arrayOfActivities);
+                res.send(response);
             }
           });
     })
