@@ -8,6 +8,8 @@ const processRSSJSONToAct = require('../processors/RSSJSONToAct');
 const insertActivities = require('../database/insertActivity');
 const clearData = require('../database/deleteAllData');
 
+
+
 // route that deletes data to be used for testing
 router.get('/clearData', async (req, res) => {
     res.send(await clearData());
@@ -18,10 +20,14 @@ router.get('/getRSS', async (req, res) => {
     .then(async (response) => {
         // parses xml response and turns it into json
         const jsonData = await processXMLToRSSJSON(response.data);
-        const arrayOfActivities = processRSSJSONToAct(jsonData);
-        const insertResponse = await insertActivities(arrayOfActivities);
-        res.send(insertResponse);
 
+        // turns json into activity objects
+        const arrayOfActivities = processRSSJSONToAct(jsonData);
+
+        // inserts the activity objects into the database
+        const insertResponse = await insertActivities(arrayOfActivities);
+        
+        res.send(insertResponse);
     })
 });
 

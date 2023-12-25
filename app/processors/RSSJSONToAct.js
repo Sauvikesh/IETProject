@@ -3,6 +3,7 @@ const Activity = require('../models/AFactivity');
 /*
     unfinshed processor that extracts certain data from the RSS response and returns an array
 */
+
 function processRSSJSONToAct (arrayOfRSSItems) {
     let arrayOfActivityObjects = [];
 
