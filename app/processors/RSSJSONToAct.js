@@ -3,7 +3,7 @@ const Activity = require('../models/AFactivity');
 /*
     unfinshed processor that extracts certain data from the RSS response and returns an array
 */
-function processRSSData (arrayOfRSSItems) {
+function processRSSJSONToAct (arrayOfRSSItems) {
     let arrayOfActivityObjects = [];
 
     for (let i = 0; i < arrayOfRSSItems.length; i++) {
@@ -31,4 +31,4 @@ function processRSSData (arrayOfRSSItems) {
     return arrayOfActivityObjects;
 }
 
-module.exports = processRSSData;
+module.exports = processRSSJSONToAct;

@@ -1,6 +1,6 @@
 const xml2js = require('xml2js');
 
-function processXMLDataIntoJSON(data) {
+function processXMLToRSSJSON(data) {
     return new Promise((resolve, reject) => {
         xml2js.parseString(data, (err, result) => {
             if (err) {
@@ -12,4 +12,4 @@ function processXMLDataIntoJSON(data) {
     });
 }
 
-module.exports = processXMLDataIntoJSON;
+module.exports = processXMLToRSSJSON;

@@ -3,8 +3,8 @@ const express = require('express');
 const router = express.Router();
 
 // non-library imports
-const processXMLDataIntoJSON = require('../processors/xmlProcessor');
-const processRSSData = require('../processors/RSSProcessor');
+const processXMLToRSSJSON = require('../processors/XMLToRSSJson'); // unsure why it gets angry when I make it all uppercase
+const processRSSJSONToAct = require('../processors/RSSJSONToAct');
 const insertActivities = require('../database/insertActivity');
 const clearData = require('../database/deleteAllData');
 
@@ -17,8 +17,8 @@ router.get('/getRSS', async (req, res) => {
     axios.get("https://www.ucdavis.edu/news/latest/rss")
     .then(async (response) => {
         // parses xml response and turns it into json
-        const jsonData = await processXMLDataIntoJSON(response.data);
-        const arrayOfActivities = processRSSData(jsonData);
+        const jsonData = await processXMLToRSSJSON(response.data);
+        const arrayOfActivities = processRSSJSONToAct(jsonData);
         const insertResponse = await insertActivities(arrayOfActivities);
         res.send(insertResponse);
 
