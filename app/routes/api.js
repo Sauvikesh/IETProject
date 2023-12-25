@@ -1,9 +1,9 @@
 const axios = require('axios');
 const express = require('express');
 const router = express.Router();
-const xml2js = require('xml2js');
 
 // non-library imports
+const processXMLDataIntoJSON = require('../processors/xmlProcessor');
 const processRSSData = require('../processors/RSSProcessor');
 const insertActivities = require('../database/insertActivity');
 const clearData = require('../database/deleteAllData');
@@ -15,17 +15,13 @@ router.get('/clearData', async (req, res) => {
 
 router.get('/getRSS', async (req, res) => {
     axios.get("https://www.ucdavis.edu/news/latest/rss")
-    .then((response) => {
+    .then(async (response) => {
         // parses xml response and turns it into json
-        xml2js.parseString(response.data, async (err, result) => {
-            if (err) {
-                console.error(err);
-            } else {
-                const arrayOfActivities = processRSSData(result.rss.channel[0].item);
-                const response = await insertActivities(arrayOfActivities);
-                res.send(response);
-            }
-          });
+        const jsonData = await processXMLDataIntoJSON(response.data);
+        const arrayOfActivities = processRSSData(jsonData);
+        const insertResponse = await insertActivities(arrayOfActivities);
+        res.send(insertResponse);
+
     })
 });
 
