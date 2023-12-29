@@ -7,6 +7,7 @@ const processXMLToRSSJSON = require('../processors/XMLToRSSJson'); // unsure why
 const processRSSJSONToAct = require('../processors/RSSJSONToAct');
 const insertActivities = require('../database/insertActivity');
 const clearData = require('../database/deleteAllData');
+const get20Activities = require('../database/getActivities');
 
 
 // route that deletes data to be used for testing
@@ -32,27 +33,7 @@ router.get('/getRSS', async (req, res) => {
 
 // define url and response to /posts
 router.get("/posts", async (req, res) => {
-    axios.get("https://aggiefeed.ucdavis.edu/api/v1/activity/public?s=0&l=10")
-    .then((response) => {
-        // extracts data from response
-        const dataObtained = response.data;
-
-        // iterates through each object and extracts desired information 
-        const activities = dataObtained.map((activity) => ({
-            id: activity.id,
-            published: activity.published,
-            title: activity.title,
-            author: activity.actor.displayName,
-            description: activity.object.content,
-            link: activity.object.ucdEdusModel.url
-          }));
-      
-          // sends the activities in an array
-          res.send(activities);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    res.send(await get20Activities());
 });
 
 module.exports = router;
