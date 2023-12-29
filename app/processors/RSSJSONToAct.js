@@ -1,4 +1,5 @@
 const Activity = require('../models/AFactivity');
+const createHash = require('../utils/hash');
 
 /*
     unfinshed processor that extracts certain data from the RSS response and returns an array
@@ -10,7 +11,7 @@ function processRSSJSONToAct (arrayOfRSSItems) {
     for (let i = 0; i < arrayOfRSSItems.length; i++) {
         let singleItem = arrayOfRSSItems[i];
         
-        const activityObject = new Activity({
+        let object = {
             actor: {
                 author: {
                     displayName: singleItem['dc:creator'][0],
@@ -25,8 +26,11 @@ function processRSSJSONToAct (arrayOfRSSItems) {
             },
             title: singleItem.title[0],
             published: singleItem.pubDate[0].time[0]._, // must be Date format YYYY-MM-DDTHH:mm:ss.SSSZ
-        });
+        };
 
+        object.hashValue = createHash(object);
+
+        const activityObject = new Activity(object);
         arrayOfActivityObjects.push(activityObject);
     }
     return arrayOfActivityObjects;

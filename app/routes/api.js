@@ -9,7 +9,6 @@ const insertActivities = require('../database/insertActivity');
 const clearData = require('../database/deleteAllData');
 
 
-
 // route that deletes data to be used for testing
 router.get('/clearData', async (req, res) => {
     res.send(await clearData());
@@ -26,7 +25,7 @@ router.get('/getRSS', async (req, res) => {
 
         // inserts the activity objects into the database
         const insertResponse = await insertActivities(arrayOfActivities);
-        
+
         res.send(insertResponse);
     })
 });

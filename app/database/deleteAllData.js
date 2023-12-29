@@ -10,7 +10,7 @@ async function clearData() {
         const result = await collection.deleteMany({});
         console.log(`${result.deletedCount} documents deleted`);
     } finally {
-        return('Deleted some data');
+        return('Deleted all data');
     }
 }
 
