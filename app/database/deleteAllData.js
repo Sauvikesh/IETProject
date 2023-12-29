@@ -1,16 +1,12 @@
-const { client } = require('../config/mongoConfig');
+const Activity = require('../models/AFactivity');
 
 async function clearData() {
     try {
-        // connect to database and the collection to delete
-        const database = client.db(); 
-        const collection = database.collection('activities'); 
-
         // Delete all activities
-        const result = await collection.deleteMany({});
-        console.log(`${result.deletedCount} documents deleted`);
-    } finally {
-        return('Deleted all data');
+        const result = await Activity.deleteMany({});
+        return { success: true, data: result };
+    } catch (error) {
+        return { success: false, data: error.message || 'Error deleting data' };
     }
 }
 
