@@ -1,5 +1,18 @@
 const Activity = require('../models/AFactivity');
 
+
+async function getActivitiesBySrcID(arrayOfActivities) {
+    const currentSrcIDs = arrayOfActivities.map(activity => activity.object.ucdSrcId);
+
+    try {
+        const result = await Activity.find({ 'object.ucdSrcId': { $in: currentSrcIDs } });
+        return (result.data);
+    } catch (error) {
+        return { success: false, data: error };
+    }
+}
+
+
 // passes in an array of activity objects
 async function insertActivities(arrayOfActivities) {
     try {

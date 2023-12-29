@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 // Schema for activity
 // UNFINISHED, need to add some more data and need to add which fields are required
 const activity = new mongoose.Schema( {
-    hashValue: {type: String, unique: true},
+    hashValue: {type: String, unique: false},
     icon: String,
     actor: {
         id: String,
@@ -20,7 +20,7 @@ const activity = new mongoose.Schema( {
     verb: String,
     title: String,
     object: {
-        ucdSrcId: String,
+        ucdSrcId: {type: String, unique: true},
         objectType: String,
         content: String,
         contentImage: {
