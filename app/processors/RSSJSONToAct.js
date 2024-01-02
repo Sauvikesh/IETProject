@@ -8,31 +8,36 @@ const createHash = require('../utils/hash');
 function processRSSJSONToAct (arrayOfRSSItems) {
     let arrayOfActivityObjects = [];
 
-    for (let i = 0; i < arrayOfRSSItems.length; i++) {
-        let singleItem = arrayOfRSSItems[i];
+    arrayOfRSSItems.forEach(item => {
+        // lines that check if the values exist before adding to our activity object
+
+        let authorName = item['dc:creator'][0] ?? "No Author";
+        let description = item.description[0] ?? "No description";
+        let title = item.title[0] ?? "No title";
+        let publishDate = item.pubDate[0].time[0]._ ?? "No publish data";
         
         let object = {
             actor: {
                 author: {
-                    displayName: singleItem['dc:creator'][0],
+                    displayName: authorName,
                 }
             },
             object: {
-                content: singleItem.description[0],
-                ucdSrcId: singleItem.guid[0]._,
+                content: description,
+                ucdSrcId: item.guid[0]._,
                 ucdEdusModel: {
-                    url: singleItem.link[0],
+                    url: item.link[0],
                 }
             },
-            title: singleItem.title[0],
-            published: singleItem.pubDate[0].time[0]._, // must be Date format YYYY-MM-DDTHH:mm:ss.SSSZ
+            title: title,
+            published: publishDate, // must be Date format YYYY-MM-DDTHH:mm:ss.SSSZ
         };
-
         object.hashValue = createHash(object);
 
         const activityObject = new Activity(object);
         arrayOfActivityObjects.push(activityObject);
-    }
+    });
+
     return arrayOfActivityObjects;
 }
 

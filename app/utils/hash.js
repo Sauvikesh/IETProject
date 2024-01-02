@@ -1,6 +1,5 @@
 const crypto = require('crypto');
 
-
 function createHash(input) {
     const hash = crypto.createHash('sha256'); // choose algo for hashing
     hash.update(JSON.stringify(input)); 
