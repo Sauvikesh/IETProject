@@ -14,7 +14,7 @@ function processRSSJSONToAct (arrayOfRSSItems) {
         let authorName = item['dc:creator'][0] ?? "No Author";
         let description = item.description[0] ?? "No description";
         let title = item.title[0] ?? "No title";
-        let publishDate = item.pubDate[0].time[0]._ ?? "No publish data";
+        let publishDate = item.pubDate[0].time[0].$.datetime ?? "No publish date";
         
         let object = {
             actor: {
