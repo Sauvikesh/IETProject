@@ -1,27 +1,32 @@
 const Activity = require('../models/AFactivity');
 
 
-async function getActivitiesBySrcID(arrayOfActivities) {
-    const currentSrcIDs = arrayOfActivities.map(activity => activity.object.ucdSrcId);
-
-    try {
-        const result = await Activity.find({ 'object.ucdSrcId': { $in: currentSrcIDs } });
-        return (result.data);
-    } catch (error) {
-        return { success: false, data: error };
-    }
-}
-
-
 // passes in an array of activity objects
 async function insertActivities(arrayOfActivities) {
-    try {
-        // inserts all activities in array into the db
-        const result = await Activity.insertMany(arrayOfActivities);
-        return { success: true, data: result };
-    } catch (error) {
-        return { success: false, data: error };
-    }
+
+    // keeps track of documents made/changed to be sent as response
+    let documentsCreated = 0;
+    let documentsUpdated = 0;
+
+    arrayOfActivities.forEach(async item => {
+        try {
+            const activityInDB = await Activity.findOne({"object.ucdSrcId": item.object.ucdSrcId});
+
+            if (activityInDB == null) {
+                await Activity.create(item);
+                documentsCreated += 1;
+            } else {
+                if (activityInDB.hashValue != item.hashValue) {
+                    await Activity.updateOne({"object.ucdSrcId": item.object.ucdSrcId}, item);
+                    documentsUpdated += 1;
+                }
+            }
+        } catch (error) {
+            return { success: false, data: error };
+        }
+    });
+
+    return { success: true, newDocuments:documentsCreated, updatedDocuments: documentsUpdated};
 }
 
 module.exports = insertActivities;

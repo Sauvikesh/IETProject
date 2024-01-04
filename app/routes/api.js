@@ -24,13 +24,13 @@ router.get('/getRSS', async (req, res) => {
         // turns json into activity objects
         const arrayOfActivities = processRSSJSONToAct(jsonData);
 
-        res.send(arrayOfActivities);
+        //res.send(arrayOfActivities);
 
 
         // inserts the activity objects into the database
-        // const insertResponse = await insertActivities(arrayOfActivities);
+        const insertResponse = await insertActivities(arrayOfActivities);
 
-        // res.send(insertResponse);
+        res.send(insertResponse);
     })
 });
 
