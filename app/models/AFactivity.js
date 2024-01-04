@@ -73,7 +73,6 @@ const activity = new mongoose.Schema( {
         startDate: String,
         endDate: String
     },
-
  });
 
 

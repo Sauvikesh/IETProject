@@ -30,22 +30,60 @@ function processRSSJSONToAct (arrayOfRSSItems) {
         let description = removeHTMLTags(item.description[0] ?? "No description");
         let title = item.title[0] ?? "No title";
         let publishDate = item.pubDate[0].time[0].$.datetime ?? "No publish date";
+        let guid = item.guid[0]._;
+        let url = item.link[0];
         
         let object = {
+            icon: "placeholder",
             actor: {
+                id: "N/A",
+                objectType: "N/A",
+                displayName: "N/A",
+                image : {
+                    color: "N/A"
+                },
                 author: {
+                    id: "N/A",
                     displayName: authorName,
-                }
+                },
             },
-            object: {
-                content: description,
-                ucdSrcId: item.guid[0]._,
-                ucdEdusModel: {
-                    url: item.link[0],
-                }
-            },
+            verb: "N/A",
             title: title,
-            published: publishDate, // must be Date format YYYY-MM-DDTHH:mm:ss.SSSZ
+            object: {
+                ucdSrcId: guid,
+                objectType: "N/A",
+                content: description,
+                ucdEdusModel: {
+                    url: url,
+                    urlDisplayName: "N/A",
+                    event: {
+                        hasStartTime: false,
+                        hasEndTime: false,
+                        location: "N/A",
+                        startDate: "N/A",
+                        endDate: "N/A",
+                        isAllDay: false,
+                    },
+                },
+                location: {
+                    displayName: "N/A",
+                    geo: {
+                        latitidue: "N/A",
+                        longitiude: "N/A",
+                    },
+                    // missing the geometry field, had errors
+                },
+            },
+            generator: {
+                id: "N/A"
+            },
+            to: [],
+            published: publishDate, 
+            ucdEdusMeta: {
+                labels: [],
+                startDate: "N/A",
+                endDate: "N/A",
+            },
         };
         object.hashValue = createHash(object);
 
