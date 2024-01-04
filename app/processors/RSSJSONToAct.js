@@ -26,10 +26,8 @@ function processRSSJSONToAct (arrayOfRSSItems) {
 
     arrayOfRSSItems.forEach(item => {
         // lines that check if the values exist before adding to our activity object
-
         let authorName = item['dc:creator'][0] ?? "No Author";
-        let description = item.description[0] ?? "No description";
-        description = removeHTMLTags(description);
+        let description = removeHTMLTags(item.description[0] ?? "No description");
         let title = item.title[0] ?? "No title";
         let publishDate = item.pubDate[0].time[0].$.datetime ?? "No publish date";
         

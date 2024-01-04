@@ -8,24 +8,23 @@ async function insertActivities(arrayOfActivities) {
     let documentsCreated = 0;
     let documentsUpdated = 0;
 
-    arrayOfActivities.forEach(async item => {
+    for(const item of arrayOfActivities) {
         try {
             const activityInDB = await Activity.findOne({"object.ucdSrcId": item.object.ucdSrcId});
-
             if (activityInDB == null) {
-                await Activity.create(item);
                 documentsCreated += 1;
+                await Activity.create(item);
             } else {
                 if (activityInDB.hashValue != item.hashValue) {
-                    await Activity.updateOne({"object.ucdSrcId": item.object.ucdSrcId}, item);
                     documentsUpdated += 1;
+                    await Activity.updateOne({"object.ucdSrcId": item.object.ucdSrcId}, item);
                 }
             }
         } catch (error) {
             return { success: false, data: error };
         }
-    });
-
+    }
+    
     return { success: true, newDocuments:documentsCreated, updatedDocuments: documentsUpdated};
 }
 
