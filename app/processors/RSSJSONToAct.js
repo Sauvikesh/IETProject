@@ -5,6 +5,22 @@ const createHash = require('../utils/hash');
     unfinshed processor that extracts certain data from the RSS response and returns an array
 */
 
+
+function removeHTMLTags(description) {
+    // Use a regular expression to match <a> tags and capture link and content
+    let newString = description.replace(/<a\b[^>]*href=['"]([^'"]*)['"][^>]*>(.*?)<\/a>/gi, '$1 ($2)');
+
+    // removes opening <p>
+    newString = newString.replace(/^<p>/, '');
+
+    // Remove </|p> tag at the end
+    newString = newString.replace(/<\/p>$/, '');
+
+    newString= newString.replace(/<p class="MsoNormal">|<\/p>\s*<p>/gi, '');
+
+    return newString;
+}
+
 function processRSSJSONToAct (arrayOfRSSItems) {
     let arrayOfActivityObjects = [];
 
@@ -13,6 +29,7 @@ function processRSSJSONToAct (arrayOfRSSItems) {
 
         let authorName = item['dc:creator'][0] ?? "No Author";
         let description = item.description[0] ?? "No description";
+        description = removeHTMLTags(description);
         let title = item.title[0] ?? "No title";
         let publishDate = item.pubDate[0].time[0].$.datetime ?? "No publish date";
         
