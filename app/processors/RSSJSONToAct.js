@@ -1,5 +1,6 @@
 const Activity = require('../models/AFactivity');
 const createHash = require('../utils/hash');
+const generateGuid = require('../utils/generateGuid');
 
 function removeHTMLTags(description) {
     // Use a regular expression to match <a> tags and capture link and content
@@ -35,7 +36,7 @@ function processRSSJSONToAct (arrayOfRSSItems) {
         let description = removeHTMLTags(item.description[0] ?? "No description");
         let title = item.title[0] ?? "No title";
         let publishDate = item.pubDate[0].time[0].$.datetime ?? "No publish date";
-        let guid = item.guid[0]._;
+        let guid = generateGuid(item.guid[0]._);
         let url = item.link[0];
         
         let object = {

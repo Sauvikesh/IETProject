@@ -1,5 +1,5 @@
 const Activity = require('../models/AFactivity');
-
+const generateGuid = require('../utils/generateGuid');
 
 // passes in an array of activity objects
 async function insertActivities(arrayOfActivities) {
@@ -16,13 +16,12 @@ async function insertActivities(arrayOfActivities) {
             if (activityInDB == null) {
                 documentsCreated += 1;
                 await Activity.create(item);
-            } else {
+            } else if (activityInDB.hashValue != item.hashValue) {
                 // update a document
-                if (activityInDB.hashValue != item.hashValue) {
-                    documentsUpdated += 1;
-                    await Activity.updateOne({"object.ucdSrcId": item.object.ucdSrcId}, item);
-                }
+                documentsUpdated += 1;
+                await Activity.updateOne({"object.ucdSrcId": item.object.ucdSrcId}, item);
             }
+            
         } catch (error) {
             console.error(`Error processing activity with ucdSrcId ${item.object.ucdSrcId}: ${error.message}`);
         }
