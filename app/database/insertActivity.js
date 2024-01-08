@@ -8,24 +8,27 @@ async function insertActivities(arrayOfActivities) {
     let documentsCreated = 0;
     let documentsUpdated = 0;
 
-    for(const item of arrayOfActivities) {
+    for (const item of arrayOfActivities) {
         try {
             const activityInDB = await Activity.findOne({"object.ucdSrcId": item.object.ucdSrcId});
+
+            // create a new document
             if (activityInDB == null) {
                 documentsCreated += 1;
                 await Activity.create(item);
             } else {
+                // update a document
                 if (activityInDB.hashValue != item.hashValue) {
                     documentsUpdated += 1;
                     await Activity.updateOne({"object.ucdSrcId": item.object.ucdSrcId}, item);
                 }
             }
         } catch (error) {
-            return { success: false, data: error };
+            console.error(`Error processing activity with ucdSrcId ${item.object.ucdSrcId}: ${error.message}`);
         }
     }
     
-    return { success: true, newDocuments:documentsCreated, updatedDocuments: documentsUpdated};
+    return {newDocuments:documentsCreated, updatedDocuments: documentsUpdated};
 }
 
 module.exports = insertActivities;
