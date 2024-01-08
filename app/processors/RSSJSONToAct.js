@@ -1,30 +1,31 @@
 const Activity = require('../models/AFactivity');
 const createHash = require('../utils/hash');
 
-/*
-    unfinshed processor that extracts certain data from the RSS response and returns an array
-*/
-
-
 function removeHTMLTags(description) {
     // Use a regular expression to match <a> tags and capture link and content
     let newString = description.replace(/<a\b[^>]*href=['"]([^'"]*)['"][^>]*>(.*?)<\/a>/gi, '$1 ($2)')
+    
     // removes new lines
     .replace(/\n/g, '')
-    // removes p tags with classes
-    .replace(/<p\b[^>]*class=['"][^'"]*['"][^>]*>(.*?)<\/p>/gi, '$1');
+
+    // removes <p> tags with classes
+    .replace(/<p\b[^>]*class=['"][^'"]*['"][^>]*>(.*?)<\/p>/gi, '$1')
 
     // removes opening <p>
-    newString = newString.replace(/^<p>/, '');
+    .replace(/^<p>/, '')
 
     // Remove </|p> tag at the end
-    newString = newString.replace(/<\/p>$/, '');
+    .replace(/<\/p>$/, '')
 
-    newString= newString.replace(/<p class="MsoNormal">|<\/p>\s*<p>/gi, '');
+    // Remove lingering <p> tags that are next to each other
+    .replace(/<\/p>\s*<p>/gi, '');
 
     return newString;
 }
 
+/*
+    processor that extracts all data from the RSS response a creates activity objects
+*/
 function processRSSJSONToAct (arrayOfRSSItems) {
     let arrayOfActivityObjects = [];
 
