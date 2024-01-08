@@ -8,7 +8,11 @@ const createHash = require('../utils/hash');
 
 function removeHTMLTags(description) {
     // Use a regular expression to match <a> tags and capture link and content
-    let newString = description.replace(/<a\b[^>]*href=['"]([^'"]*)['"][^>]*>(.*?)<\/a>/gi, '$1 ($2)');
+    let newString = description.replace(/<a\b[^>]*href=['"]([^'"]*)['"][^>]*>(.*?)<\/a>/gi, '$1 ($2)')
+    // removes new lines
+    .replace(/\n/g, '')
+    // removes p tags with classes
+    .replace(/<p\b[^>]*class=['"][^'"]*['"][^>]*>(.*?)<\/p>/gi, '$1');
 
     // removes opening <p>
     newString = newString.replace(/^<p>/, '');
