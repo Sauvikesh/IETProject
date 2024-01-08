@@ -10,6 +10,21 @@ const clearData = require('../database/deleteAllData');
 const get20Activities = require('../database/getActivities');
 
 
+// route that gets sources
+router.get('/sources', async (req, res) => {
+    const apiKey = "b1e07a9f-3d22-4251-aef3-3e1becbd2e51";
+    const apiURL = "http://localhost:8080/api/v1/admin-tool/source";
+
+    axios.get(apiURL, {
+        headers : {
+            "Authorization": apiKey
+        }
+    })
+    .then(async (response) => {
+        res.send(response);
+    })
+});
+
 // route that deletes data to be used for testing
 router.get('/clearData', async (req, res) => {
     res.send(await clearData());
