@@ -34,7 +34,11 @@ services:
     volumes: 
       - database:/data/db
     ports:
-      - 27017:27017
-
+      - 49152:49152
+networks:
+  default:
+    external:
+      name: aggiefeed-api_default
+  
 volumes:
   database:
