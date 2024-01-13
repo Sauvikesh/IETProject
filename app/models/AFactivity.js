@@ -66,7 +66,11 @@ const activity = new mongoose.Schema( {
     generator: {
         id: String
     },
-    to: Array,
+    to: {
+        id: String,
+        g: Boolean,
+        i: Boolean,
+    },
     published: String,
     ucdEdusMeta: {
         labels: Array,

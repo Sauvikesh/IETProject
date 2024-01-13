@@ -25,9 +25,22 @@ function removeHTMLTags(description) {
 }
 
 /*
+const connectorData = {
+          id: rssConnectors.id,
+          name: rssConnectors.name,
+          uri: rssConnectors.uri,
+          enabled: rssConnectors.enabled,
+          approveBy: rssConnectors.approveBy,
+          includeImage: rssConnectors.includeImages,
+          startSyncWindow: rssConnectors.startSyncWindow,
+          endSyncWindow: rssConnectors.endSyncWindow
+        }
+*/
+
+/*
     processor that extracts all data from the RSS response a creates activity objects
 */
-function processRSSJSONToAct (arrayOfRSSItems) {
+function processRSSJSONToAct (arrayOfRSSItems, rssConnectorData) {
     let arrayOfActivityObjects = [];
 
     arrayOfRSSItems.forEach(item => {
@@ -42,9 +55,9 @@ function processRSSJSONToAct (arrayOfRSSItems) {
         let object = {
             icon: "placeholder",
             actor: {
-                id: "N/A",
-                objectType: "N/A",
-                displayName: "N/A",
+                id: "edustest",
+                objectType: "person",
+                displayName: "UC Davis IET",
                 image : {
                     color: "N/A"
                 },
@@ -53,15 +66,15 @@ function processRSSJSONToAct (arrayOfRSSItems) {
                     displayName: authorName,
                 },
             },
-            verb: "N/A",
+            verb: "post",
             title: title,
             object: {
                 ucdSrcId: guid,
-                objectType: "N/A",
+                objectType: "notification",
                 content: description,
                 ucdEdusModel: {
                     url: url,
-                    urlDisplayName: "N/A",
+                    urlDisplayName: "UC Davis",
                     event: {
                         hasStartTime: false,
                         hasEndTime: false,
@@ -83,10 +96,14 @@ function processRSSJSONToAct (arrayOfRSSItems) {
             generator: {
                 id: "N/A"
             },
-            to: [],
+            to: {
+                id: "public",
+                g: true,
+                i: false,
+            },
             published: publishDate, 
             ucdEdusMeta: {
-                labels: [],
+                labels: ["~academic"],
                 startDate: "N/A",
                 endDate: "N/A",
             },

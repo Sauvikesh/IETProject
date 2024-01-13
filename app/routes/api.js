@@ -17,9 +17,9 @@ router.get('/clearData', async (req, res) => {
 
 router.get('/getRSS', async (req, res) => {
     const connector = await getRSSConnectors();
-
-    const uri = connector.uri;
     console.log(connector);
+    const uri = connector.uri;
+
     axios.get(uri)
     .then(async (response) => {
         // parses xml response and turns it into json
