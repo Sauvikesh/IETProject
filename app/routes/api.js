@@ -15,21 +15,32 @@ router.get('/sources', async (req, res) => {
     const apiKey = "b1e07a9f-3d22-4251-aef3-3e1becbd2e51";
     const apiURL = "http://edustream:8080/api/v1/source";
 
-
     const settings = {
         params: {
-            connectorType: "all",
+            connectorType: "rss",
         },
         headers: {
           'Authorization': `ApiKey ${apiKey}`,
         }
     }
 
-
     console.log("about to make the call");
     axios.get(apiURL, settings)
     .then(async (response) => {
-        res.send(response.data);
+        const rssConnectors = response.data[0].connectors[0];
+
+        const connectorData = {
+          id: rssConnectors.id,
+          name: rssConnectors.name,
+          uri: rssConnectors.uri,
+          enabled: rssConnectors.enabled,
+          approveBy: rssConnectors.approveBy,
+          includeImage: rssConnectors.includeImage,
+          startSyncWindow: rssConnectors.startSyncWindow,
+          endSyncWindow: rssConnectors.endSyncWindow
+        }
+
+        res.send(connectorData);
     })
     .catch(error => {
         // Handle error
