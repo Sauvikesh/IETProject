@@ -74,7 +74,7 @@ function processRSSJSONToAct (arrayOfRSSItems, rssConnectorData) {
                 content: description,
                 ucdEdusModel: {
                     url: url,
-                    urlDisplayName: "UC Davis",
+                    urlDisplayName: rssConnectorData.name,
                     event: {
                         hasStartTime: false,
                         hasEndTime: false,
@@ -94,7 +94,7 @@ function processRSSJSONToAct (arrayOfRSSItems, rssConnectorData) {
                 },
             },
             generator: {
-                id: "N/A"
+                id: rssConnectorData.id
             },
             to: {
                 id: "public",
