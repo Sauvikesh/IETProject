@@ -1,5 +1,4 @@
 const Activity = require('../models/AFactivity');
-const generateGuid = require('../utils/generateGuid');
 
 // passes in an array of activity objects
 async function insertActivities(arrayOfActivities) {

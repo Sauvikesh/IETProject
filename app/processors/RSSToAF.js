@@ -40,7 +40,7 @@ const connectorData = {
 /*
     processor that extracts all data from the RSS response a creates activity objects
 */
-function processRSSJSONToAct (arrayOfRSSItems, rssConnectorData) {
+function processRSSToAF(arrayOfRSSItems, rssConnectorData) {
     let arrayOfActivityObjects = [];
 
     arrayOfRSSItems.forEach(item => {
@@ -54,7 +54,7 @@ function processRSSJSONToAct (arrayOfRSSItems, rssConnectorData) {
         let url = item.link[0];
         
         let object = {
-            icon: "placeholder",
+            icon: "icon-comment-alt",
             actor: {
                 id: "edustest",
                 objectType: "person",
@@ -109,13 +109,10 @@ function processRSSJSONToAct (arrayOfRSSItems, rssConnectorData) {
                 endDate: "2030-01-01T00:00:00.000Z",
             },
         };
-        object.hashValue = createHash(object);
-
-        const activityObject = new Activity(object);
-        arrayOfActivityObjects.push(activityObject);
+        arrayOfActivityObjects.push(object);
     });
 
     return arrayOfActivityObjects;
 }
 
-module.exports = processRSSJSONToAct;
+module.exports = processRSSToAF;

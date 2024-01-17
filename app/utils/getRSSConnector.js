@@ -14,7 +14,7 @@ async function getRSSConnectors() {
     }
   
     try {
-        const response = await axios.get(apiURL, settings)
+        const response = await axios.get(apiURL, settings);
         const rssConnectors = response.data[0].connectors[0];
   
         const connectorData = {
