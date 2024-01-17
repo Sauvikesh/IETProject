@@ -11,6 +11,11 @@ async function insertActivitiesIntoAF(arrayOfActivities) {
         }
     }
 
+    // keeps track of documents made/changed to be sent as response
+    let documentsInserted = 0;
+    let errorsCaught = 0;
+
+    // currently slicing area so i don't have to insert 20 activities at a time for debugging
     for (const actvitiy of arrayOfActivities.slice(0, 4)) {
         const requestData = {
             activity: actvitiy
@@ -18,10 +23,9 @@ async function insertActivitiesIntoAF(arrayOfActivities) {
 
         try {
             const response = await axios.post(apiURL, requestData, settings);
-            console.log(response.data)
-            console.log("<<----------------->>")
-            console.log(arrayOfActivities[0])
-          } catch(error) {
+            documentsInserted += 1;
+          } catch (error) {
+            errorsCaught += 1;
             // Handle error
             if (error.response) {
               // The request was made, but the server responded with an error status
@@ -36,6 +40,7 @@ async function insertActivitiesIntoAF(arrayOfActivities) {
             };
         };
     }
+    return({documentsInserted:documentsInserted, errorsCaught:errorsCaught})
 }
 
 module.exports = insertActivitiesIntoAF;
