@@ -11,7 +11,7 @@ async function insertActivitiesIntoAF(arrayOfActivities) {
         }
     }
 
-    // keeps track of documents made/changed to be sent as response
+    // keeps track of documents made to be sent as responses
     let documentsInserted = 0;
     let errorsCaught = 0;
 
@@ -23,6 +23,7 @@ async function insertActivitiesIntoAF(arrayOfActivities) {
 
         try {
             const response = await axios.post(apiURL, requestData, settings);
+            console.log('Response:', response.data);
             documentsInserted += 1;
           } catch (error) {
             errorsCaught += 1;

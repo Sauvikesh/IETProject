@@ -17,7 +17,7 @@ router.get('/clearData', async (req, res) => {
     res.send(await clearData());
 });
 
-router.get('/bruh', async (req, res) => {
+router.get('/postAF', async (req, res) => {
     const connector = await getRSSConnectors();
     console.log(connector);
     const uri = connector.uri;

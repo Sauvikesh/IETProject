@@ -59,9 +59,6 @@ function processRSSToAF(arrayOfRSSItems, rssConnectorData) {
                 id: "edustest",
                 objectType: "person",
                 displayName: "UC Davis IET",
-                image : {
-                    color: "#ffffff"
-                },
                 author: {
                     id: "N/A",
                     displayName: authorName,
@@ -76,22 +73,6 @@ function processRSSToAF(arrayOfRSSItems, rssConnectorData) {
                 ucdEdusModel: {
                     url: url,
                     urlDisplayName: rssConnectorData.name,
-                    event: {
-                        hasStartTime: false, 
-                        hasEndTime: false,
-                        location: "N/A",
-                        startDate: "2022-04-14T17:44:56.297Z",
-                        endDate: "2022-04-14T17:44:56.297Z",
-                        isAllDay: false,
-                    },
-                },
-                location: {
-                    displayName: "N/A",
-                    geo: {
-                        latitude: "N/A",
-                        longitude: "N/A",
-                    },
-                    // missing the geometry field, had errors
                 },
             },
             generator: {
@@ -105,8 +86,6 @@ function processRSSToAF(arrayOfRSSItems, rssConnectorData) {
             published: dateObject.toISOString(), 
             ucdEdusMeta: {
                 labels: ["~academic"],
-                startDate: "2022-04-14T17:44:56.297Z",
-                endDate: "2030-01-01T00:00:00.000Z",
             },
         };
         arrayOfActivityObjects.push(object);
